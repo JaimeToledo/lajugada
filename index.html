@@ -1162,10 +1162,12 @@
       mapUrl: "https://maps.app.goo.gl/RNaE5U65WBEmGtd26?g_st=iw",
 
       // Fecha objetivo para el contador regresivo (formato local YYYY-MM-DDTHH:mm:ss)
-      countdownTarget: "2026-04-03T20:00:00",
+      countdownTarget: "2026-04-04T20:00:00",
 
-      // Numero de WhatsApp en formato internacional sin + ni espacios
-      whatsappNumber: "525585589859",
+      // Numero de WhatsApp ofuscado (evita exponerlo en texto plano en el codigo)
+      // Para cambiarlo, reemplaza esta pareja por otra generada con tu numero.
+      whatsappKey: 7,
+      whatsappCipher: [50, 53, 50, 50, 63, 50, 50, 63, 62, 63, 50, 62],
 
       // Nombre para el mensaje prellenado
       hostName: "--COLOCA TU NOMBRE--",
@@ -1173,6 +1175,10 @@
       // Musica de fondo (coloca tu archivo en /audio y cambia esta ruta)
       musicUrl: "audio/ERA - Ameno (Official Video).mp3",
       musicVolume: 0.35,
+
+      // Endpoint backend para tracking (Google Apps Script Web App)
+      // Ejemplo: https://script.google.com/macros/s/AKfycb.../exec
+      trackingEndpoint: "",
 
       // Imagenes del carrusel (mesa, fichas, cartas, ambiente premium)
       heroImages: [
@@ -1220,13 +1226,54 @@
     mapTopBtn.href = EVENT_CONFIG.mapUrl;
     mapSectionBtn.href = EVENT_CONFIG.mapUrl;
 
+    function decodeWhatsAppNumber() {
+      const key = EVENT_CONFIG.whatsappKey;
+      return EVENT_CONFIG.whatsappCipher
+        .map((value) => String.fromCharCode(value ^ key))
+        .join("");
+    }
+
     function buildWhatsappUrl(playerName) {
       const cleanName = (playerName || EVENT_CONFIG.hostName).trim();
       const waMessage = `Confirmo mi asistencia para tu jugada, ${cleanName}`;
-      return `https://wa.me/${EVENT_CONFIG.whatsappNumber}?text=${encodeURIComponent(waMessage)}`;
+      const phone = decodeWhatsAppNumber();
+      return `https://wa.me/${phone}?text=${encodeURIComponent(waMessage)}`;
     }
 
-    waButton.href = buildWhatsappUrl(EVENT_CONFIG.hostName);
+    waButton.href = "#";
+    let confirmedPlayerName = "";
+
+    function sendTrackingEvent(eventType, playerName) {
+      if (!EVENT_CONFIG.trackingEndpoint) return;
+
+      const payload = {
+        eventType,
+        playerName: (playerName || "").trim(),
+        page: window.location.href,
+        referrer: document.referrer || "",
+        userAgent: navigator.userAgent,
+        timestamp: new Date().toISOString()
+      };
+
+      const body = JSON.stringify(payload);
+
+      if (navigator.sendBeacon) {
+        const blob = new Blob([body], { type: "text/plain;charset=UTF-8" });
+        navigator.sendBeacon(EVENT_CONFIG.trackingEndpoint, blob);
+        return;
+      }
+
+      fetch(EVENT_CONFIG.trackingEndpoint, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain;charset=UTF-8" },
+        body,
+        keepalive: true
+      }).catch(() => {});
+    }
+
+    // Marca apertura de pagina apenas carga el script.
+    sendTrackingEvent("page_open", "");
 
     /*
       ================== MUSICA DE FONDO ==================
@@ -1277,7 +1324,9 @@
       }
 
       entryError.textContent = "";
+      confirmedPlayerName = playerName;
       waButton.href = buildWhatsappUrl(playerName);
+  sendTrackingEvent("entered_experience", playerName);
 
       bgMusic.currentTime = 0;
       bgMusic.muted = false;
@@ -1313,6 +1362,17 @@
     bgMusic.addEventListener("error", () => {
       musicToggle.textContent = "▶ Reanudar";
       musicToggle.classList.add("is-off");
+    });
+
+    waButton.addEventListener("click", (event) => {
+      const targetName = confirmedPlayerName || EVENT_CONFIG.hostName;
+      const waUrl = buildWhatsappUrl(targetName);
+      waButton.href = waUrl;
+
+      // Si por alguna razon aun no hay href valido, evita salida a #.
+      if (!waUrl.includes("wa.me/")) {
+        event.preventDefault();
+      }
     });
 
     /*
