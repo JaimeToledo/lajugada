@@ -1,0 +1,1489 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jugada Privada | Poker Cash</title>
+  <meta name="description" content="Landing page privada para confirmar asistencia a una jugada de poker cash." />
+
+  <!-- Tipografias (CDN liviano y compatible con GitHub Pages) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Bebas+Neue&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg-main: #070909;
+      --bg-panel: #101616;
+      --bg-panel-2: #0f1f18;
+      --text-main: #f4f7f6;
+      --text-soft: #b9c7c0;
+      --green-casino: #00d66b;
+      --green-soft: #0f7f45;
+      --red-accent: #ff3d3d;
+      --gold: #f6c453;
+      --line: rgba(255, 255, 255, 0.13);
+      --shadow-strong: 0 18px 42px rgba(0, 0, 0, 0.45);
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --maxw: 1120px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Montserrat", sans-serif;
+      background:
+        radial-gradient(circle at 12% 8%, rgba(246, 196, 83, 0.09), transparent 35%),
+        radial-gradient(circle at 90% 12%, rgba(255, 61, 61, 0.12), transparent 40%),
+        linear-gradient(145deg, #070909 0%, #08100d 56%, #09130f 100%);
+      color: var(--text-main);
+      line-height: 1.45;
+      overflow-x: hidden;
+    }
+
+    body.pre-entry {
+      overflow: hidden;
+    }
+
+    .bg-casino {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .bg-casino .chip,
+    .bg-casino .bill {
+      position: absolute;
+      opacity: 0.14;
+      filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.35));
+      animation-timing-function: ease-in-out;
+      animation-iteration-count: infinite;
+    }
+
+    .bg-casino .chip {
+      width: 120px;
+      height: 120px;
+      border-radius: 999px;
+      border: 10px dashed rgba(255, 255, 255, 0.45);
+      box-shadow:
+        inset 0 0 0 8px rgba(0, 0, 0, 0.18),
+        inset 0 0 0 22px rgba(0, 214, 107, 0.28);
+      background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4), rgba(0, 214, 107, 0.2));
+    }
+
+    .bg-casino .bill {
+      width: 160px;
+      height: 80px;
+      border-radius: 10px;
+      border: 2px solid rgba(246, 196, 83, 0.35);
+      background:
+        linear-gradient(145deg, rgba(21, 70, 46, 0.6), rgba(10, 50, 31, 0.5)),
+        repeating-linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0.08) 0,
+          rgba(255, 255, 255, 0.08) 8px,
+          transparent 8px,
+          transparent 16px
+        );
+    }
+
+    .bg-casino .bill::before {
+      content: "$";
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      color: rgba(246, 196, 83, 0.62);
+      font-weight: 800;
+      font-size: 2rem;
+      font-family: "Bebas Neue", sans-serif;
+      letter-spacing: 1px;
+    }
+
+    .bg-casino .a { top: 6%; left: -25px; animation: floatSlow 13s infinite; }
+    .bg-casino .b { top: 18%; right: -30px; animation: floatSlow 15s infinite reverse; }
+    .bg-casino .c { top: 54%; left: 2%; animation: floatSoft 12s infinite; }
+    .bg-casino .d { top: 72%; right: 3%; animation: floatSoft 14s infinite reverse; }
+    .bg-casino .e { top: 38%; left: 82%; animation: floatSlow 16s infinite; }
+    .bg-casino .f { top: 80%; left: 40%; animation: floatSoft 11s infinite; }
+
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-22px) rotate(6deg); }
+    }
+
+    @keyframes floatSoft {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      50% { transform: translate(14px, -16px) rotate(-5deg); }
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      z-index: -2;
+      pointer-events: none;
+      border-radius: 50%;
+      filter: blur(48px);
+    }
+
+    body::before {
+      width: 220px;
+      height: 220px;
+      left: -80px;
+      top: 22%;
+      background: rgba(0, 214, 107, 0.18);
+      animation: driftA 14s ease-in-out infinite;
+    }
+
+    body::after {
+      width: 240px;
+      height: 240px;
+      right: -90px;
+      top: 58%;
+      background: rgba(255, 61, 61, 0.2);
+      animation: driftB 16s ease-in-out infinite;
+    }
+
+    @keyframes driftA {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(24px, -18px); }
+    }
+
+    @keyframes driftB {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(-20px, 16px); }
+    }
+
+    .container {
+      width: min(100% - 2rem, var(--maxw));
+      margin-inline: auto;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(10px);
+      background: rgba(6, 10, 9, 0.72);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .nav {
+      min-height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+
+    .logo-mark {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--green-casino), var(--green-soft));
+      box-shadow: 0 0 20px rgba(0, 214, 107, 0.5);
+    }
+
+    .nav-cta {
+      text-decoration: none;
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.9rem;
+      border: 1px solid rgba(0, 214, 107, 0.5);
+      border-radius: 999px;
+      padding: 0.6rem 0.95rem;
+      background: linear-gradient(135deg, rgba(0, 214, 107, 0.18), rgba(0, 214, 107, 0.05));
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .nav-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 214, 107, 0.25);
+    }
+
+    main {
+      padding-bottom: 3.5rem;
+    }
+
+    .hero {
+      position: relative;
+      padding: 3.4rem 0 2.6rem;
+      isolation: isolate;
+    }
+
+    .hero-grid {
+      display: grid;
+      gap: 1.3rem;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.45rem 0.85rem;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 999px;
+      color: #f6f1db;
+      font-weight: 600;
+      font-size: 0.75rem;
+      letter-spacing: 0.4px;
+      background: rgba(246, 196, 83, 0.12);
+      width: fit-content;
+    }
+
+    h1 {
+      font-family: "Bebas Neue", sans-serif;
+      letter-spacing: 1px;
+      font-size: clamp(2.1rem, 8vw, 4.35rem);
+      line-height: 1;
+      text-wrap: balance;
+    }
+
+    .hero-sub {
+      color: var(--text-soft);
+      font-size: 1.03rem;
+      max-width: 62ch;
+    }
+
+    .hook {
+      margin-top: 0.8rem;
+      color: var(--gold);
+      font-weight: 700;
+      letter-spacing: 0.2px;
+    }
+
+    .hero-actions {
+      margin-top: 0.95rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .btn {
+      text-decoration: none;
+      border: 0;
+      cursor: pointer;
+      border-radius: 12px;
+      padding: 0.88rem 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.25px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+      text-align: center;
+    }
+
+    .btn-primary {
+      color: #03150c;
+      background: linear-gradient(135deg, #2fff8f, #00b85b);
+      box-shadow: 0 0 0 1px rgba(16, 255, 132, 0.35), 0 0 22px rgba(16, 255, 132, 0.44);
+      animation: pulseGlow 2.1s ease-in-out infinite;
+    }
+
+    .btn-secondary {
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.07);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.04);
+    }
+
+    .btn-secondary:hover {
+      box-shadow: 0 10px 18px rgba(0, 0, 0, 0.3);
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 0 1px rgba(16, 255, 132, 0.35), 0 0 18px rgba(16, 255, 132, 0.34); }
+      50% { box-shadow: 0 0 0 1px rgba(16, 255, 132, 0.52), 0 0 30px rgba(16, 255, 132, 0.55); }
+    }
+
+    .hero-card {
+      margin-top: 0.65rem;
+      border: 1px solid var(--line);
+      background: linear-gradient(170deg, rgba(18, 27, 24, 0.86), rgba(12, 20, 18, 0.8));
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-strong);
+    }
+
+    .hero-image {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+      max-height: 320px;
+      height: clamp(250px, 46vw, 320px);
+      filter: saturate(1.12) contrast(1.02);
+    }
+
+    .hero-image.crop-bottom {
+      height: clamp(250px, 46vw, 320px);
+      object-position: center top;
+    }
+
+    .hero-carousel {
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .carousel-track {
+      display: flex;
+      transition: transform 0.5s ease;
+      will-change: transform;
+    }
+
+    .carousel-slide {
+      min-width: 100%;
+      position: relative;
+    }
+
+    .carousel-caption {
+      position: absolute;
+      left: 0.7rem;
+      bottom: 0.7rem;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+      color: #f7f5e8;
+      background: rgba(0, 0, 0, 0.58);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 999px;
+      padding: 0.33rem 0.62rem;
+      backdrop-filter: blur(3px);
+    }
+
+    .carousel-control {
+      position: absolute;
+      top: calc(50% - 18px);
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      background: rgba(0, 0, 0, 0.46);
+      color: #fff;
+      cursor: pointer;
+      font-size: 1.08rem;
+      line-height: 1;
+      display: grid;
+      place-items: center;
+      transition: transform 0.2s ease, background 0.2s ease;
+      z-index: 2;
+    }
+
+    .carousel-control:hover {
+      transform: scale(1.05);
+      background: rgba(0, 0, 0, 0.66);
+    }
+
+    .carousel-control.prev {
+      left: 0.55rem;
+    }
+
+    .carousel-control.next {
+      right: 0.55rem;
+    }
+
+    .carousel-dots {
+      position: absolute;
+      left: 50%;
+      bottom: 0.62rem;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 0.38rem;
+      z-index: 2;
+    }
+
+    .carousel-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      border: 0;
+      background: rgba(255, 255, 255, 0.42);
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .carousel-dot.is-active {
+      background: var(--green-casino);
+      transform: scale(1.2);
+      box-shadow: 0 0 10px rgba(0, 214, 107, 0.6);
+    }
+
+    .hero-chip {
+      display: inline-block;
+      margin: 0.85rem;
+      margin-top: -1.15rem;
+      padding: 0.45rem 0.8rem;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.68);
+      border: 1px solid rgba(246, 196, 83, 0.45);
+      color: #ffe9b4;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+
+    .section {
+      padding: 1.25rem 0;
+    }
+
+    .section-title {
+      font-family: "Bebas Neue", sans-serif;
+      font-size: clamp(1.65rem, 4vw, 2.3rem);
+      letter-spacing: 1px;
+      margin-bottom: 0.6rem;
+    }
+
+    .section-sub {
+      color: var(--text-soft);
+      margin-bottom: 1.05rem;
+      max-width: 70ch;
+    }
+
+    .cards {
+      display: grid;
+      gap: 0.8rem;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: linear-gradient(160deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+      padding: 1rem;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    }
+
+    .card h3 {
+      font-size: 1rem;
+      margin-bottom: 0.35rem;
+      color: #f2f8f4;
+    }
+
+    .card p,
+    .card li {
+      color: var(--text-soft);
+      font-size: 0.95rem;
+    }
+
+    .cost-value {
+      color: #fcfffd;
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      margin: 0.2rem 0 0.35rem;
+    }
+
+    .cost-tag {
+      color: #ace9c6;
+      font-size: 0.8rem;
+      letter-spacing: 0.3px;
+      font-weight: 600;
+    }
+
+    .list-clean {
+      list-style: none;
+      display: grid;
+      gap: 0.4rem;
+    }
+
+    .list-clean li {
+      padding-left: 1.25rem;
+      position: relative;
+    }
+
+    .list-clean li::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--green-casino);
+      box-shadow: 0 0 10px rgba(0, 214, 107, 0.6);
+      position: absolute;
+      left: 0;
+      top: 0.47rem;
+    }
+
+    .countdown-wrap {
+      margin-top: 0.65rem;
+      border: 1px dashed rgba(255, 61, 61, 0.45);
+      border-radius: 14px;
+      padding: 0.85rem;
+      background: rgba(255, 61, 61, 0.08);
+    }
+
+    .countdown-title {
+      font-size: 0.8rem;
+      letter-spacing: 0.35px;
+      color: #ffd2d2;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .countdown-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.45rem;
+    }
+
+    .time-box {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 10px;
+      text-align: center;
+      padding: 0.5rem 0.2rem;
+    }
+
+    .time-box strong {
+      display: block;
+      font-size: 1.02rem;
+      color: #fff;
+      line-height: 1;
+    }
+
+    .time-box span {
+      font-size: 0.68rem;
+      color: #d1dad6;
+      text-transform: uppercase;
+      letter-spacing: 0.35px;
+    }
+
+    .location-note {
+      margin-top: 0.45rem;
+      color: #ffe3a6;
+      font-size: 0.86rem;
+      font-weight: 600;
+    }
+
+    .cta-panel {
+      margin-top: 0.8rem;
+      border: 1px solid rgba(0, 214, 107, 0.4);
+      border-radius: var(--radius-lg);
+      padding: 1.1rem;
+      background: linear-gradient(155deg, rgba(0, 214, 107, 0.12), rgba(0, 214, 107, 0.02));
+      box-shadow: 0 0 0 1px rgba(0, 214, 107, 0.25), inset 0 0 18px rgba(0, 214, 107, 0.12);
+    }
+
+    .cta-panel p {
+      color: #d8f7e6;
+      margin-bottom: 0.85rem;
+    }
+
+    .whatsapp-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #fff;
+      background: linear-gradient(135deg, #1fa855, #0e7f3d);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      box-shadow: 0 0 20px rgba(46, 214, 109, 0.34);
+    }
+
+    .wa-icon {
+      width: 18px;
+      height: 18px;
+      display: inline-block;
+    }
+
+    .music-toggle {
+      position: fixed;
+      right: 1rem;
+      bottom: 1rem;
+      z-index: 25;
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(0, 214, 107, 0.92), rgba(7, 139, 73, 0.92));
+      color: #03140c;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+      padding: 0.7rem 0.95rem;
+      cursor: pointer;
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.35), 0 0 20px rgba(0, 214, 107, 0.28);
+      transition: transform 0.2s ease, filter 0.2s ease, opacity 0.25s ease;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    body.has-started .music-toggle {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .music-toggle:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.04);
+    }
+
+    .music-toggle.is-off {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.09));
+      color: #edf5f1;
+      border-color: rgba(255, 255, 255, 0.26);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.28);
+    }
+
+    .entry-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 40;
+      display: grid;
+      place-items: center;
+      padding: 1.25rem;
+      background:
+        radial-gradient(circle at 50% 30%, rgba(246, 196, 83, 0.14), transparent 32%),
+        linear-gradient(180deg, rgba(3, 6, 5, 0.92), rgba(6, 14, 11, 0.97));
+      backdrop-filter: blur(10px);
+      transition: opacity 0.45s ease, visibility 0.45s ease;
+    }
+
+    .entry-overlay.is-hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .entry-card {
+      width: min(100%, 540px);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 28px;
+      padding: 1.3rem;
+      background: linear-gradient(165deg, rgba(16, 25, 22, 0.94), rgba(8, 15, 12, 0.92));
+      box-shadow: 0 22px 50px rgba(0, 0, 0, 0.42);
+      text-align: center;
+    }
+
+    .entry-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.42rem 0.78rem;
+      border-radius: 999px;
+      border: 1px solid rgba(246, 196, 83, 0.35);
+      background: rgba(246, 196, 83, 0.1);
+      color: #ffebb8;
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.35px;
+    }
+
+    .entry-card h2 {
+      margin-top: 0.85rem;
+      font-family: "Bebas Neue", sans-serif;
+      font-size: clamp(2rem, 7vw, 3.4rem);
+      line-height: 1;
+      letter-spacing: 1px;
+    }
+
+    .entry-card p {
+      margin-top: 0.7rem;
+      color: #c6d3cd;
+      font-size: 0.98rem;
+    }
+
+    .entry-input {
+      width: 100%;
+      margin-top: 0.95rem;
+      min-height: 52px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: rgba(255, 255, 255, 0.06);
+      color: #f4f7f6;
+      padding: 0.95rem 1rem;
+      font-size: 0.98rem;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .entry-input::placeholder {
+      color: #9eb0aa;
+    }
+
+    .entry-input:focus {
+      border-color: rgba(0, 214, 107, 0.6);
+      box-shadow: 0 0 0 3px rgba(0, 214, 107, 0.15);
+    }
+
+    .entry-error {
+      min-height: 1.1rem;
+      margin-top: 0.5rem;
+      color: #ff9f9f;
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
+    .entry-button {
+      margin-top: 1rem;
+      width: 100%;
+      min-height: 54px;
+      border-radius: 14px;
+      border: 0;
+      cursor: pointer;
+      font-weight: 800;
+      letter-spacing: 0.35px;
+      color: #03150c;
+      background: linear-gradient(135deg, #2fff8f, #00b85b);
+      box-shadow: 0 0 0 1px rgba(16, 255, 132, 0.35), 0 0 26px rgba(16, 255, 132, 0.35);
+    }
+
+    .entry-note {
+      margin-top: 0.75rem;
+      color: #ffe7aa;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    footer {
+      padding: 1.2rem 0 2rem;
+      text-align: center;
+      color: #95a6a0;
+      font-size: 0.84rem;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (min-width: 700px) {
+      .hero-grid {
+        grid-template-columns: 1.15fr 0.85fr;
+        align-items: center;
+        gap: 1.2rem;
+      }
+
+      .cards.cols-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .cards.cols-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .hero-card {
+        margin-top: 0;
+      }
+    }
+
+    @media (min-width: 1100px) {
+      .hero {
+        padding-top: 4.2rem;
+      }
+
+      .hero-grid {
+        gap: 1.8rem;
+      }
+
+      .entry-card {
+        padding: 1.7rem;
+      }
+    }
+
+    @media (max-width: 699px) {
+      .bg-casino .chip,
+      .bg-casino .bill {
+        opacity: 0.09;
+      }
+
+      .bg-casino .e,
+      .bg-casino .f {
+        display: none;
+      }
+
+      .nav {
+        min-height: 60px;
+      }
+
+      .hero {
+        padding-top: 2.4rem;
+      }
+
+      .hero-actions {
+        gap: 0.6rem;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .countdown-grid {
+        gap: 0.35rem;
+      }
+
+      .time-box {
+        padding: 0.45rem 0.15rem;
+      }
+
+      .music-toggle {
+        right: 0.75rem;
+        bottom: 0.75rem;
+        padding: 0.62rem 0.82rem;
+        font-size: 0.9rem;
+      }
+
+      .entry-card {
+        padding: 1rem;
+        border-radius: 22px;
+      }
+
+      .entry-button,
+      .entry-input {
+        min-height: 50px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        width: min(100% - 1.15rem, var(--maxw));
+      }
+
+      .hero {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+      }
+
+      .eyebrow {
+        font-size: 0.68rem;
+        padding: 0.38rem 0.7rem;
+      }
+
+      .hero-sub,
+      .section-sub,
+      .card p,
+      .card li {
+        font-size: 0.92rem;
+      }
+
+      .countdown-wrap {
+        padding: 0.72rem;
+      }
+
+      .time-box strong {
+        font-size: 0.92rem;
+      }
+
+      .time-box span {
+        font-size: 0.62rem;
+      }
+
+      .carousel-control {
+        width: 32px;
+        height: 32px;
+        top: calc(50% - 16px);
+      }
+
+      .carousel-caption {
+        left: 0.5rem;
+        right: 0.5rem;
+        bottom: 0.5rem;
+        text-align: center;
+        border-radius: 12px;
+        font-size: 0.68rem;
+      }
+
+      .hero-chip {
+        display: block;
+        margin: 0.75rem;
+        margin-top: -1rem;
+        text-align: center;
+      }
+
+      .entry-card h2 {
+        font-size: 2.2rem;
+      }
+
+      .entry-card p {
+        font-size: 0.92rem;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .countdown-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .logo {
+        gap: 0.45rem;
+        font-size: 0.94rem;
+      }
+
+      .nav-cta {
+        padding: 0.55rem 0.8rem;
+        font-size: 0.82rem;
+      }
+    }
+  </style>
+</head>
+<body class="pre-entry">
+  <div class="bg-casino" aria-hidden="true">
+    <span class="chip a"></span>
+    <span class="bill b"></span>
+    <span class="chip c"></span>
+    <span class="bill d"></span>
+    <span class="chip e"></span>
+    <span class="bill f"></span>
+  </div>
+
+  <div class="entry-overlay" id="entryOverlay" aria-modal="true" role="dialog" aria-label="Entrar a la jugada">
+    <div class="entry-card">
+      <span class="entry-kicker">Evento privado • acceso con ambiente</span>
+      <h2>Entra a la jugada</h2>
+      <p>Un solo toque y arranca la experiencia completa: visual, ambiente y mesa lista.</p>
+      <input class="entry-input" id="guestNameInput" type="text" placeholder="Escribe tu nombre" autocomplete="name" />
+      <p class="entry-error" id="entryError"></p>
+      <button class="entry-button" id="enterExperienceBtn" type="button">Entrar</button>
+      <p class="entry-note">Toca para abrir la invitacion y encender el ambiente.</p>
+    </div>
+  </div>
+
+  <header>
+    <div class="container nav">
+      <div class="logo">
+        <span class="logo-mark" aria-hidden="true"></span>
+        <span>Jugada Privada</span>
+      </div>
+      <a class="nav-cta" href="#confirmar">Quiero mi lugar</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="reveal">
+          <div class="eyebrow">Acceso limitado a jugadores seleccionados</div>
+          <h1>La mesa esta lista...<br />vas a entrar?</h1>
+          <p class="hero-sub">
+            No es solo una jugada, es <strong>LA JUGADA</strong>. Una noche privada de poker cash con ambiente premium,
+            ritmo alto y una mesa que no espera.
+          </p>
+          <p class="hook">Cartas sobre la mesa. El resto depende de ti.</p>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#confirmar">Confirmar asistencia</a>
+            <a class="btn btn-secondary" id="mapTopBtn" target="_blank" rel="noopener noreferrer">Ver ubicacion</a>
+          </div>
+
+          <div class="countdown-wrap" aria-live="polite">
+            <p class="countdown-title">Cuenta regresiva para cerrar lista</p>
+            <div class="countdown-grid" id="countdown">
+              <div class="time-box"><strong id="days">00</strong><span>Dias</span></div>
+              <div class="time-box"><strong id="hours">00</strong><span>Horas</span></div>
+              <div class="time-box"><strong id="minutes">00</strong><span>Min</span></div>
+              <div class="time-box"><strong id="seconds">00</strong><span>Seg</span></div>
+            </div>
+            <p class="location-note" id="countdownMessage">Asegura tu lugar antes de que se complete el cupo.</p>
+          </div>
+        </div>
+
+        <aside class="hero-card reveal">
+          <div class="hero-carousel" id="heroCarousel" aria-label="Carrusel de ambiente poker">
+            <div class="carousel-track" id="carouselTrack">
+              <figure class="carousel-slide">
+                <img
+                  class="hero-image crop-bottom"
+                  src="images/image.png"
+                  alt="Mesa de poker con fichas"
+                  loading="lazy"
+                  onerror="this.onerror=null;this.src='assets/img/poker-1.svg'"
+                />
+                <figcaption class="carousel-caption">Mesa premium lista para jugar</figcaption>
+              </figure>
+            </div>
+
+            <button class="carousel-control prev" id="carouselPrev" type="button" aria-label="Imagen anterior">&#10094;</button>
+            <button class="carousel-control next" id="carouselNext" type="button" aria-label="Imagen siguiente">&#10095;</button>
+
+            <div class="carousel-dots" id="carouselDots" aria-label="Navegacion del carrusel"></div>
+          </div>
+          <span class="hero-chip">Ubicacion privada: se comparte al confirmar</span>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2 class="section-title reveal">Detalles de la Jugada</h2>
+        <p class="section-sub reveal">
+          Evento elegante, divertido y con energia competitiva. Todo listo para que solo te preocupes por leer la mesa.
+        </p>
+
+        <div class="cards cols-3">
+          <article class="card reveal">
+            <h3>Fecha</h3>
+            <p id="eventDateText">Sabado 3 de abril</p>
+          </article>
+          <article class="card reveal">
+            <h3>Hora</h3>
+            <p id="eventTimeText">8:00 PM</p>
+          </article>
+          <article class="card reveal">
+            <h3>Modalidad</h3>
+            <p id="eventModeText">Mata AA</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2 class="section-title reveal">Estructura de Costos</h2>
+        <p class="section-sub reveal">Transparente, clara y estilo casino real.</p>
+
+        <div class="cards cols-2">
+          <article class="card reveal">
+            <h3>Buy-in inicial</h3>
+            <p class="cost-value" id="buyInText">$1500 MXN</p>
+            <p class="cost-tag">Entrada para tomar asiento en la mesa</p>
+          </article>
+          <article class="card reveal">
+            <h3>Reenganche disponible</h3>
+            <p class="cost-value" id="rebuyText">$1000 MXN</p>
+            <p class="cost-tag">Sigue en juego cuando la noche sube de nivel</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2 class="section-title reveal">Lo Que Incluye</h2>
+        <p class="section-sub reveal">Dinero, cartas y buena compania. Todo en un ambiente cuidado y privado.</p>
+
+        <div class="cards">
+          <article class="card reveal">
+            <ul class="list-clean" id="benefitsList">
+              <li>Comida de cortesia durante la jugada</li>
+              <li>Bebidas de cortesia</li>
+              <li>Cigarros de cortesia disponibles</li>
+              <li>Ambiente privado y exclusivo</li>
+              <li>Mesas con cupo limitado</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2 class="section-title reveal">Ubicacion</h2>
+        <p class="section-sub reveal">Ubicacion privada, acceso para jugadores confirmados.</p>
+        <div class="cards">
+          <article class="card reveal">
+            <p>Al confirmar te aseguras tu asiento y recibes seguimiento directo.</p>
+            <div class="hero-actions" style="margin-top:0.75rem;">
+              <a class="btn btn-secondary" id="mapSectionBtn" target="_blank" rel="noopener noreferrer">Abrir Google Maps</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="confirmar">
+      <div class="container">
+        <div class="cta-panel reveal">
+          <h2 class="section-title" style="margin-bottom:0.4rem;">Confirma Tu Lugar</h2>
+          <p>
+            La lista se cierra en cuanto se llenan las mesas. Si vas a jugar, confirma ahora y entra en la mesa correcta.
+          </p>
+          <a class="btn whatsapp-btn" id="waButton" target="_blank" rel="noopener noreferrer" aria-label="Confirmar por WhatsApp">
+            <svg class="wa-icon" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
+              <path d="M19.11 17.2c-.27-.13-1.6-.79-1.84-.88-.25-.09-.43-.13-.62.13-.18.27-.71.88-.87 1.06-.16.18-.31.2-.58.07-.27-.13-1.12-.41-2.13-1.3-.79-.7-1.33-1.56-1.48-1.83-.16-.27-.02-.41.12-.54.12-.12.27-.31.4-.47.13-.16.18-.27.27-.45.09-.18.04-.34-.02-.47-.07-.13-.62-1.49-.85-2.04-.22-.53-.45-.46-.62-.47h-.53c-.18 0-.47.07-.71.34-.25.27-.94.92-.94 2.24 0 1.31.96 2.58 1.09 2.76.13.18 1.88 2.88 4.55 4.03.63.27 1.13.43 1.52.56.64.2 1.22.17 1.68.1.51-.08 1.6-.65 1.83-1.28.22-.63.22-1.16.15-1.28-.06-.12-.25-.2-.52-.33z"/>
+              <path d="M16.02 3C8.84 3 3 8.84 3 16c0 2.53.74 5 2.12 7.12L3 29l6.02-1.98A12.96 12.96 0 0 0 16.02 29C23.2 29 29 23.16 29 16S23.2 3 16.02 3zm0 23.76c-2.16 0-4.28-.58-6.12-1.68l-.44-.26-3.57 1.17 1.16-3.48-.29-.45A10.73 10.73 0 0 1 5.26 16c0-5.93 4.83-10.76 10.76-10.76S26.78 10.07 26.78 16s-4.83 10.76-10.76 10.76z"/>
+            </svg>
+            Confirmar por WhatsApp
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Evento privado de poker cash. Juega con responsabilidad.
+  </footer>
+
+  <audio id="bgMusic" preload="auto" loop playsinline webkit-playsinline>
+    Tu navegador no soporta audio HTML5.
+  </audio>
+
+  <button class="music-toggle" id="musicToggle" type="button" aria-label="Control de musica: play o pausa">
+    ⏸ Pausa
+  </button>
+
+  <script>
+    /*
+      ================== ZONA EDITABLE ==================
+      Cambia aqui la informacion principal del evento.
+      Esto te permite editar rapido fecha, hora, costos, mapa y WhatsApp.
+    */
+    const EVENT_CONFIG = {
+      // Fecha mostrada en texto
+      dateLabel: "Sabado 3 de abril",
+
+      // Hora mostrada en texto
+      timeLabel: "8:00 PM",
+
+      // Modalidad del evento
+      modeLabel: "Mata AA",
+
+      // Costos
+      buyInLabel: "$1500 MXN",
+      rebuyLabel: "$1000 MXN",
+
+      // URL de Google Maps (se abre en otra pestana)
+      mapUrl: "https://maps.app.goo.gl/RNaE5U65WBEmGtd26?g_st=iw",
+
+      // Fecha objetivo para el contador regresivo (formato local YYYY-MM-DDTHH:mm:ss)
+      countdownTarget: "2026-04-03T20:00:00",
+
+      // Numero de WhatsApp en formato internacional sin + ni espacios
+      whatsappNumber: "525585589859",
+
+      // Nombre para el mensaje prellenado
+      hostName: "--COLOCA TU NOMBRE--",
+
+      // Musica de fondo (coloca tu archivo en /audio y cambia esta ruta)
+      musicUrl: "audio/ERA - Ameno (Official Video).mp3",
+      musicVolume: 0.35,
+
+      // Imagenes del carrusel (mesa, fichas, cartas, ambiente premium)
+      heroImages: [
+        // Primera imagen local desde /images
+        {
+          url: "images/image.png",
+          alt: "Mesa de poker con dinero y fichas",
+          caption: "Dinero en juego y la mesa encendida"
+        },
+        {
+          url: "https://images.unsplash.com/photo-1529480780361-c8cb81eb5735?auto=format&fit=crop&w=1400&q=80",
+          alt: "Fichas de casino sobre mesa verde",
+          caption: "Fichas sobre la mesa, sin margen para dudar"
+        },
+        {
+          url: "https://images.unsplash.com/photo-1596838132731-3301c3fd4317?auto=format&fit=crop&w=1400&q=80",
+          alt: "Ambiente nocturno de juego exclusivo",
+          caption: "Noche privada para jugadores serios"
+        }
+      ]
+    };
+
+    /*
+      ================== CARGA DINAMICA ==================
+      Inserta datos configurables en la interfaz.
+    */
+    const eventDateText = document.getElementById("eventDateText");
+    const eventTimeText = document.getElementById("eventTimeText");
+    const eventModeText = document.getElementById("eventModeText");
+    const buyInText = document.getElementById("buyInText");
+    const rebuyText = document.getElementById("rebuyText");
+
+    const mapTopBtn = document.getElementById("mapTopBtn");
+    const mapSectionBtn = document.getElementById("mapSectionBtn");
+    const waButton = document.getElementById("waButton");
+    const guestNameInput = document.getElementById("guestNameInput");
+    const entryError = document.getElementById("entryError");
+
+    eventDateText.textContent = EVENT_CONFIG.dateLabel;
+    eventTimeText.textContent = EVENT_CONFIG.timeLabel;
+    eventModeText.textContent = EVENT_CONFIG.modeLabel;
+    buyInText.textContent = EVENT_CONFIG.buyInLabel;
+    rebuyText.textContent = EVENT_CONFIG.rebuyLabel;
+
+    mapTopBtn.href = EVENT_CONFIG.mapUrl;
+    mapSectionBtn.href = EVENT_CONFIG.mapUrl;
+
+    function buildWhatsappUrl(playerName) {
+      const cleanName = (playerName || EVENT_CONFIG.hostName).trim();
+      const waMessage = `Confirmo mi asistencia para tu jugada, ${cleanName}`;
+      return `https://wa.me/${EVENT_CONFIG.whatsappNumber}?text=${encodeURIComponent(waMessage)}`;
+    }
+
+    waButton.href = buildWhatsappUrl(EVENT_CONFIG.hostName);
+
+    /*
+      ================== MUSICA DE FONDO ==================
+      Se inicia desde la pantalla de entrada con una sola interaccion.
+      Asi funciona de forma fiable en una pagina publica.
+    */
+    const bgMusic = document.getElementById("bgMusic");
+    const musicToggle = document.getElementById("musicToggle");
+    const entryOverlay = document.getElementById("entryOverlay");
+    const enterExperienceBtn = document.getElementById("enterExperienceBtn");
+
+    function setMusicButton(isPlaying) {
+      if (isPlaying) {
+        musicToggle.textContent = "⏸ Pausa";
+        musicToggle.classList.remove("is-off");
+      } else {
+        musicToggle.textContent = "▶ Reanudar";
+        musicToggle.classList.add("is-off");
+      }
+    }
+
+    async function playMusic() {
+      try {
+        await bgMusic.play();
+        setMusicButton(true);
+        return true;
+      } catch (_) {
+        setMusicButton(false);
+        return false;
+      }
+    }
+
+    if (EVENT_CONFIG.musicUrl) {
+      bgMusic.src = encodeURI(EVENT_CONFIG.musicUrl);
+      bgMusic.volume = Math.max(0, Math.min(1, EVENT_CONFIG.musicVolume));
+      bgMusic.load();
+      bgMusic.setAttribute("playsinline", "");
+      bgMusic.setAttribute("webkit-playsinline", "");
+      setMusicButton(false);
+    }
+
+    async function startExperience() {
+      const playerName = guestNameInput.value.trim();
+      if (!playerName) {
+        entryError.textContent = "Escribe tu nombre para entrar a la jugada.";
+        guestNameInput.focus();
+        return;
+      }
+
+      entryError.textContent = "";
+      waButton.href = buildWhatsappUrl(playerName);
+
+      bgMusic.currentTime = 0;
+      bgMusic.muted = false;
+      bgMusic.volume = Math.max(0, Math.min(1, EVENT_CONFIG.musicVolume));
+      const started = await playMusic();
+
+      document.body.classList.remove("pre-entry");
+      document.body.classList.add("has-started");
+      entryOverlay.classList.add("is-hidden");
+
+      if (!started) {
+        setMusicButton(false);
+      }
+    }
+
+    enterExperienceBtn.addEventListener("click", startExperience);
+
+    guestNameInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        startExperience();
+      }
+    });
+
+    musicToggle.addEventListener("click", async () => {
+      if (bgMusic.paused) {
+        await playMusic();
+      } else {
+        bgMusic.pause();
+        setMusicButton(false);
+      }
+    });
+
+    bgMusic.addEventListener("error", () => {
+      musicToggle.textContent = "▶ Reanudar";
+      musicToggle.classList.add("is-off");
+    });
+
+    /*
+      ================== CARRUSEL HERO ==================
+      Autoplay + controles manuales + dots.
+    */
+    const carouselTrack = document.getElementById("carouselTrack");
+    const carouselDots = document.getElementById("carouselDots");
+    const carouselPrev = document.getElementById("carouselPrev");
+    const carouselNext = document.getElementById("carouselNext");
+
+    // Fallback visual para evitar imagenes en blanco si algun host externo falla.
+    const FALLBACK_IMAGE = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(
+      '<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0f1f18"/><stop offset="1" stop-color="#07100d"/></linearGradient></defs><rect width="1400" height="900" fill="url(#g)"/><circle cx="240" cy="170" r="130" fill="#00d66b" fill-opacity="0.12"/><circle cx="1150" cy="730" r="160" fill="#ff3d3d" fill-opacity="0.12"/><text x="700" y="420" text-anchor="middle" fill="#f4f7f6" font-family="Arial, Helvetica, sans-serif" font-size="64" font-weight="700">JUGADA PRIVADA</text><text x="700" y="490" text-anchor="middle" fill="#b9c7c0" font-family="Arial, Helvetica, sans-serif" font-size="34">Mesa lista. Confirma tu lugar.</text></svg>'
+    );
+
+    let currentSlide = 0;
+    let autoplayTimer = null;
+
+    function renderCarousel() {
+      const images = EVENT_CONFIG.heroImages || [];
+
+      if (!images.length) {
+        carouselTrack.innerHTML = `
+          <div class="carousel-slide">
+            <img class="hero-image crop-bottom" src="images/image.png" alt="Mesa de poker" loading="lazy" onerror="this.onerror=null;this.src='${FALLBACK_IMAGE}'" />
+          </div>
+        `;
+        carouselDots.innerHTML = "";
+        return;
+      }
+
+      carouselTrack.innerHTML = images
+        .map(
+          (img) => `
+            <figure class="carousel-slide">
+              <img class="hero-image ${img.url === "images/image.png" ? "crop-bottom" : ""}" src="${img.url || FALLBACK_IMAGE}" alt="${img.alt || "Imagen de poker"}" loading="lazy" onerror="this.onerror=null;this.src='${FALLBACK_IMAGE}'" />
+              <figcaption class="carousel-caption">${img.caption}</figcaption>
+            </figure>
+          `
+        )
+        .join("");
+
+      carouselDots.innerHTML = images
+        .map((_, idx) => `<button class="carousel-dot ${idx === 0 ? "is-active" : ""}" type="button" data-slide="${idx}" aria-label="Ir a imagen ${idx + 1}"></button>`)
+        .join("");
+    }
+
+    function goToSlide(index) {
+      const images = EVENT_CONFIG.heroImages || [];
+      if (!images.length) return;
+
+      currentSlide = (index + images.length) % images.length;
+      carouselTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+
+      const dots = carouselDots.querySelectorAll(".carousel-dot");
+      dots.forEach((dot, idx) => {
+        dot.classList.toggle("is-active", idx === currentSlide);
+      });
+    }
+
+    function startAutoplay() {
+      stopAutoplay();
+      autoplayTimer = setInterval(() => {
+        goToSlide(currentSlide + 1);
+      }, 4200);
+    }
+
+    function stopAutoplay() {
+      if (autoplayTimer) {
+        clearInterval(autoplayTimer);
+        autoplayTimer = null;
+      }
+    }
+
+    renderCarousel();
+    goToSlide(0);
+    startAutoplay();
+
+    carouselPrev.addEventListener("click", () => {
+      goToSlide(currentSlide - 1);
+      startAutoplay();
+    });
+
+    carouselNext.addEventListener("click", () => {
+      goToSlide(currentSlide + 1);
+      startAutoplay();
+    });
+
+    carouselDots.addEventListener("click", (event) => {
+      const target = event.target;
+      if (!(target instanceof HTMLElement)) return;
+      const index = target.getAttribute("data-slide");
+      if (index === null) return;
+
+      goToSlide(Number(index));
+      startAutoplay();
+    });
+
+    const heroCarousel = document.getElementById("heroCarousel");
+    heroCarousel.addEventListener("mouseenter", stopAutoplay);
+    heroCarousel.addEventListener("mouseleave", startAutoplay);
+
+    /*
+      ================== COUNTDOWN ==================
+      Si la fecha ya paso, muestra mensaje de cierre/apertura.
+    */
+    const daysEl = document.getElementById("days");
+    const hoursEl = document.getElementById("hours");
+    const minutesEl = document.getElementById("minutes");
+    const secondsEl = document.getElementById("seconds");
+    const countdownMessage = document.getElementById("countdownMessage");
+
+    const targetTime = new Date(EVENT_CONFIG.countdownTarget).getTime();
+
+    function pad(value) {
+      return String(value).padStart(2, "0");
+    }
+
+    function updateCountdown() {
+      const now = Date.now();
+      const diff = targetTime - now;
+
+      if (Number.isNaN(targetTime)) {
+        countdownMessage.textContent = "Configura una fecha valida para activar el contador.";
+        return;
+      }
+
+      if (diff <= 0) {
+        daysEl.textContent = "00";
+        hoursEl.textContent = "00";
+        minutesEl.textContent = "00";
+        secondsEl.textContent = "00";
+        countdownMessage.textContent = "La mesa ya esta en juego. Confirma para entrar si aun hay lugar.";
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+
+      daysEl.textContent = pad(days);
+      hoursEl.textContent = pad(hours);
+      minutesEl.textContent = pad(minutes);
+      secondsEl.textContent = pad(seconds);
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+    /*
+      ================== REVEAL ON SCROLL ==================
+      Animacion ligera al aparecer secciones.
+    */
+    const revealElements = document.querySelectorAll(".reveal");
+    const revealObserver = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.16
+      }
+    );
+
+    revealElements.forEach((element) => revealObserver.observe(element));
+  </script>
+</body>
+</html>

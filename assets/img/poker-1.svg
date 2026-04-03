@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900" role="img" aria-label="Mesa premium lista para jugar">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#07110d"/>
+      <stop offset="1" stop-color="#0f281f"/>
+    </linearGradient>
+    <radialGradient id="felt" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#169251"/>
+      <stop offset="1" stop-color="#0a4e2d"/>
+    </radialGradient>
+  </defs>
+  <rect width="1400" height="900" fill="url(#bg)"/>
+  <ellipse cx="700" cy="470" rx="520" ry="250" fill="url(#felt)" stroke="#1fdf83" stroke-opacity="0.25" stroke-width="8"/>
+  <g fill="#f8f8f8">
+    <rect x="530" y="370" width="82" height="120" rx="8"/>
+    <rect x="618" y="360" width="82" height="120" rx="8"/>
+    <rect x="706" y="370" width="82" height="120" rx="8"/>
+  </g>
+  <g fill="#e94848">
+    <circle cx="540" cy="440" r="16"/>
+    <circle cx="628" cy="430" r="16"/>
+  </g>
+  <g fill="#111">
+    <circle cx="720" cy="430" r="16"/>
+    <circle cx="806" cy="440" r="16"/>
+  </g>
+  <text x="700" y="150" text-anchor="middle" fill="#f5f8f7" font-size="62" font-family="Arial, Helvetica, sans-serif" font-weight="700">JUGADA PRIVADA</text>
+  <text x="700" y="210" text-anchor="middle" fill="#b6c8c0" font-size="28" font-family="Arial, Helvetica, sans-serif">Mesa premium lista para jugar</text>
+</svg>
